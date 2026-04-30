@@ -7,32 +7,23 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.otaku.terraformstudio.core.presentation.ObserveAsEvents
-import com.otaku.terraformstudio.features.home.domain.HomeArtisan
-import com.otaku.terraformstudio.features.home.domain.HomeCollection
-import com.otaku.terraformstudio.features.home.domain.HomeProduct
+import com.otaku.terraformstudio.core.presentation.components.*
 import com.otaku.terraformstudio.features.home.domain.HomeSection
 import com.otaku.terraformstudio.features.home.domain.HomeSectionType
-import com.otaku.terraformstudio.ui.theme.NotoSerif
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -49,7 +40,7 @@ fun HomeRoot(
             is HomeEvent.NavigateToProduct -> onNavigateToProduct(event.productId)
             is HomeEvent.NavigateToArtisan -> onNavigateToArtisan(event.artisanId)
             is HomeEvent.NavigateToCollection -> onNavigateToCollection(event.collectionId)
-            is HomeEvent.ShowError -> { /* Show Snackbar or similar */ }
+            is HomeEvent.ShowError -> { /* Show Snackbar */ }
         }
     }
 
@@ -59,7 +50,6 @@ fun HomeRoot(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     state: HomeState,
@@ -67,34 +57,13 @@ fun HomeScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Terra Form Studio",
-                        fontFamily = NotoSerif,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 22.sp,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* Open Drawer */ }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* Open Cart */ }) {
-                        Icon(Icons.Default.ShoppingBag, contentDescription = "Cart")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.88f)
-                )
+            AppTopBar(
+                onMenuClick = { /* Open Drawer */ },
+                onCartClick = { /* Open Cart */ }
             )
         },
         bottomBar = {
-            HomeBottomNavigation()
+            AppBottomNavigation(currentRoute = "gallery")
         }
     ) { padding ->
         LazyColumn(
@@ -130,7 +99,6 @@ fun HomeSectionItem(
         HomeSectionType.COLLECTION_ROW -> HomeCollectionRow(section, onAction)
         HomeSectionType.ARTISAN_SPOTLIGHT -> HomeArtisanSpotlight(section, onAction)
         HomeSectionType.PRODUCT_ROW -> HomeProductRow(section, onAction)
-        HomeSectionType.EDITORIAL -> HomeEditorialSection(section, onAction)
         else -> {}
     }
 }
@@ -210,84 +178,29 @@ fun HomeCollectionRow(section: HomeSection, onAction: (HomeAction) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             items(section.collections) { collection ->
-                HomeCollectionCard(collection, onAction)
+                CollectionCard(
+                    id = collection.id,
+                    title = collection.title,
+                    imageUrl = collection.imageUrl,
+                    onClick = { onAction(HomeAction.OnCollectionClick(it)) }
+                )
             }
         }
     }
 }
 
 @Composable
-fun HomeCollectionCard(collection: HomeCollection, onAction: (HomeAction) -> Unit) {
-    Column(
-        modifier = Modifier
-            .width(146.dp)
-            .clickable { onAction(HomeAction.OnCollectionClick(collection.id)) }
-    ) {
-        AsyncImage(
-            model = collection.imageUrl,
-            contentDescription = collection.title,
-            modifier = Modifier
-                .height(194.dp)
-                .clip(RoundedCornerShape(18.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = collection.title.uppercase(),
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-
-@Composable
 fun HomeArtisanSpotlight(section: HomeSection, onAction: (HomeAction) -> Unit) {
     val artisan = section.artisan ?: return
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 20.dp, vertical = 28.dp)
-            .fillMaxWidth()
-            .clickable { onAction(HomeAction.OnArtisanClick(artisan.id)) },
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f))
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            AsyncImage(
-                model = artisan.studioImageUrl,
-                contentDescription = artisan.name,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .clip(RoundedCornerShape(12.dp)),
-                contentScale = ContentScale.Crop
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Artisan Spotlight".uppercase(),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = section.title ?: "The Soul of Clay: ${artisan.name}",
-                style = MaterialTheme.typography.headlineLarge,
-                lineHeight = 32.sp
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = section.content ?: artisan.philosophy ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(modifier = Modifier.height(14.dp))
-            Text(
-                text = "Read her story".uppercase(),
-                style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
+    ArtisanSpotlightCard(
+        id = artisan.id,
+        name = artisan.name,
+        title = section.title ?: "The Soul of Clay: ${artisan.name}",
+        content = section.content ?: artisan.philosophy ?: "",
+        studioImageUrl = artisan.studioImageUrl,
+        onClick = { onAction(HomeAction.OnArtisanClick(it)) },
+        modifier = Modifier.padding(horizontal = 20.dp, vertical = 28.dp)
+    )
 }
 
 @Composable
@@ -303,7 +216,6 @@ fun HomeProductRow(section: HomeSection, onAction: (HomeAction) -> Unit) {
                 textAlign = TextAlign.Center
             )
         }
-        // Simplified grid for now using chunks
         val chunks = section.products.chunked(2)
         chunks.forEach { rowProducts ->
             Row(
@@ -311,9 +223,12 @@ fun HomeProductRow(section: HomeSection, onAction: (HomeAction) -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 rowProducts.forEach { product ->
-                    HomeProductCard(
-                        product = product,
-                        onAction = onAction,
+                    ProductCard(
+                        id = product.id,
+                        title = product.title,
+                        price = product.price,
+                        imageUrl = product.imageUrl,
+                        onClick = { onAction(HomeAction.OnProductClick(it)) },
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -323,67 +238,5 @@ fun HomeProductRow(section: HomeSection, onAction: (HomeAction) -> Unit) {
             }
             Spacer(modifier = Modifier.height(14.dp))
         }
-    }
-}
-
-@Composable
-fun HomeProductCard(product: HomeProduct, onAction: (HomeAction) -> Unit, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.clickable { onAction(HomeAction.OnProductClick(product.id)) }
-    ) {
-        AsyncImage(
-            model = product.imageUrl,
-            contentDescription = product.title,
-            modifier = Modifier
-                .aspectRatio(1f)
-                .clip(RoundedCornerShape(18.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = product.title, style = MaterialTheme.typography.titleLarge, fontSize = 15.sp)
-        Text(
-            text = "$${String.format("%.2f", product.price)}",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
-@Composable
-fun HomeEditorialSection(section: HomeSection, onAction: (HomeAction) -> Unit) {
-    // Implement based on design if needed
-}
-
-@Composable
-fun HomeBottomNavigation() {
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.96f),
-        tonalElevation = 0.dp
-    ) {
-        NavigationBarItem(
-            selected = true,
-            onClick = {},
-            icon = { Icon(Icons.Default.Menu, contentDescription = "Gallery") },
-            label = { Text("Gallery") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = {},
-            icon = { Icon(Icons.Default.Menu, contentDescription = "Artisans") },
-            label = { Text("Artisans") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = {},
-            icon = { Icon(Icons.Default.Menu, contentDescription = "Journal") },
-            label = { Text("Journal") }
-        )
-        NavigationBarItem(
-            selected = false,
-            onClick = {},
-            icon = { Icon(Icons.Default.ShoppingBag, contentDescription = "Cart") },
-            label = { Text("Cart") }
-        )
     }
 }

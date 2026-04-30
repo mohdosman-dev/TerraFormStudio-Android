@@ -1,16 +1,13 @@
 package com.otaku.terraformstudio.features.home.data
 
-import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Module
-import org.koin.core.annotation.Single
+import com.otaku.terraformstudio.features.home.domain.HomeRepository
+import com.otaku.terraformstudio.features.home.presentation.HomeViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 import retrofit2.Retrofit
 
-@Module
-@ComponentScan("com.otaku.terraformstudio.features.home")
-class HomeModule {
-
-    @Single
-    fun provideHomeApi(retrofit: Retrofit): HomeApi {
-        return retrofit.create(HomeApi::class.java)
-    }
+val homeModule = module {
+    single { get<Retrofit>().create(HomeApi::class.java) }
+    single<HomeRepository> { HomeRepositoryImpl(get()) }
+    viewModel { HomeViewModel(get()) }
 }

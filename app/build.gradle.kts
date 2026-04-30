@@ -1,20 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
-//    alias(libs.plugins.kotlin.android)
-//    alias(libs.plugins.kotlin.compose)
-//    alias(libs.plugins.kotlin.serialization)
-//    alias(libs.plugins.ksp)
-//    alias(libs.plugins.room)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
     namespace = "com.otaku.terraformstudio"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.otaku.terraformstudio"
         minSdk = 29
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -34,16 +33,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-//    kotlinOptions {
-//        jvmTarget = "11"
-//    }
     buildFeatures {
         compose = true
         buildConfig = true
     }
-//    room {
-//        schemaArg("room.schemaLocation", "$projectDir/schemas")
-//    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {
@@ -66,17 +63,16 @@ dependencies {
     // DI - Koin
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
-    implementation(libs.koin.annotations)
-    ksp(libs.koin.ksp.compiler)
 
     // Networking
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.okhttp.logging)
 
     // Image Loading
-    implementation(libs.coil-compose)
+    implementation(libs.coil.compose)
 
     // Logging
     implementation(libs.kermit)
@@ -84,10 +80,10 @@ dependencies {
     // Database
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
+    ksp(libs.room.compiler) // Keep KSP only for Room for now as requested for DB
 
     // Storage
-    implementation(libs.androidx.security-crypto)
+    implementation(libs.androidx.security.crypto)
 
     // Testing
     testImplementation(libs.junit)
@@ -95,13 +91,13 @@ dependencies {
     testImplementation(libs.assertk)
     testImplementation(libs.turbine)
     testImplementation(libs.kotlinx.coroutines.test)
-    
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.mockk.android)
-    
+
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

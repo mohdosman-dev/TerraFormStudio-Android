@@ -1,13 +1,9 @@
 package com.otaku.terraformstudio
 
-import com.otaku.terraformstudio.core.data.CoreDataModule
-import com.otaku.terraformstudio.features.home.data.HomeModule
-import org.koin.core.annotation.Module
+import com.otaku.terraformstudio.core.data.coreDataModule
+import com.otaku.terraformstudio.features.home.data.homeModule
+import org.koin.dsl.module
 
-@Module(
-    includes = [
-        CoreDataModule::class,
-        HomeModule::class
-    ]
-)
-class AppModule
+val appModule = module {
+    includes(coreDataModule, homeModule)
+}

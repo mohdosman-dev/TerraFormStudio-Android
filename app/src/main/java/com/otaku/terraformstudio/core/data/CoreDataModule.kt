@@ -1,17 +1,38 @@
 package com.otaku.terraformstudio.core.data
 
-import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Module
-import org.koin.core.annotation.Single
+import com.otaku.terraformstudio.core.utils.Constants
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
-@Module
-@ComponentScan("com.otaku.terraformstudio.core.data")
-class CoreDataModule {
+val coreDataModule = module {
+    single {
+        Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
+    }
 
-    @Single
-    fun provideRetrofit(): Retrofit {
-        // 10.0.2.2 is the special alias to your host loopback interface (localhost on your development machine)
-        return RetrofitFactory.create("http://10.0.2.2:3000/")
+    single {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+    }
+
+    single<Retrofit> {
+        val contentType = "application/json".toMediaType()
+        Retrofit.Builder()
+            .baseUrl("${Constants.BASE_URL}/api/")
+            .client(get())
+            .addConverterFactory(get<Json>().asConverterFactory(contentType))
+            .build()
     }
 }

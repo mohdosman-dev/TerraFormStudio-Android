@@ -10,8 +10,8 @@ activityCompose = "1.13.0"
 composeBom = "2026.04.01"
 ksp = "2.2.10-2.0.2" # Note: KSP version usually lags slightly behind Kotlin, checking for 2.2.10 compat
 koin = "4.2.1"
-koinAnnotations = "4.2.1"
 retrofit = "3.0.0"
+okhttp = "5.0.0-alpha.14"
 kotlinxSerialization = "1.11.0"
 kotlinxDatetime = "0.7.1"
 kermit = "2.1.0"
@@ -44,12 +44,11 @@ androidx-compose-material-icons-extended = { group = "androidx.compose.material"
 # DI - Koin
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
-koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koinAnnotations" }
-koin-ksp-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koinAnnotations" }
 
 # Networking
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 

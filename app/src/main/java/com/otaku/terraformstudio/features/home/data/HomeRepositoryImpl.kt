@@ -9,11 +9,9 @@ import com.otaku.terraformstudio.features.home.domain.HomeProduct
 import com.otaku.terraformstudio.features.home.domain.HomeSection
 import com.otaku.terraformstudio.features.home.domain.HomeSectionType
 import com.otaku.terraformstudio.features.home.domain.HomeRepository
-import org.koin.core.annotation.Single
 import retrofit2.HttpException
 import java.io.IOException
 
-@Single
 class HomeRepositoryImpl(
     private val homeApi: HomeApi
 ) : HomeRepository {
