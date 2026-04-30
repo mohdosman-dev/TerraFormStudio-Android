@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TerraFormStudio</string>
+    <string name="error_no_internet">No internet connection. Please check your network.</string>
+    <string name="error_server">A server error occurred. Please try again later.</string>
+    <string name="error_unauthorized">You are not authorized to view this content.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
+</resources>

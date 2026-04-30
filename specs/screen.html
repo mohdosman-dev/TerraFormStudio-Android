@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tactile Gallery Design System Screens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #7A6A53;
+      --secondary: #A68A78;
+      --tertiary: #C4B5A5;
+      --natural: #FAF9F6;
+      --bg: #f4f0ea;
+      --surface: #faf9f6;
+      --surface-2: #f1ece5;
+      --surface-3: #e7dfd5;
+      --text: #2f2a24;
+      --muted: #7f7468;
+      --faint: #a29689;
+      --border: #ddd4c8;
+      --shadow: 0 18px 40px rgba(122, 106, 83, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: linear-gradient(180deg, #f7f4ef 0%, #efe8df 100%);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      padding: 40px 20px 80px;
+    }
+    h1, h2 { font-family: 'Manrope', sans-serif; }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 48px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--muted);
+      margin: 24px 0 12px;
+    }
+    .sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 780px;
+      line-height: 1.6;
+    }
+    .section {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .swatch {
+      width: 160px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: white;
+      border: 1px solid var(--border);
+    }
+    .swatch-color { height: 72px; }
+    .swatch-info { padding: 10px 12px; background: #fffdfa; }
+    .swatch-name { font-size: 12px; font-weight: 700; color: var(--text); }
+    .swatch-hex { font-size: 11px; color: var(--muted); font-family: monospace; margin-top: 4px; }
+
+    .font-sample {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .font-sample .label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .phone-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin: 24px 0;
+    }
+    .phone-container { text-align: center; }
+    .phone-label {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .phone {
+      width: 375px;
+      border-radius: 32px;
+      border: 3px solid #d8cec2;
+      overflow: hidden;
+      background: #f8f5f0;
+      flex-shrink: 0;
+      box-shadow: 0 30px 60px rgba(102, 82, 61, 0.12);
+    }
+    .phone-screen {
+      color: var(--text);
+      overflow-y: auto;
+      text-align: left;
+      background: var(--natural);
+    }
+    .serif { font-family: 'Noto Serif', serif; }
+    .caps { text-transform: uppercase; letter-spacing: 0.14em; }
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+    .divider { border-top: 1px solid rgba(122,106,83,0.12); }
+    .chip {
+      display: inline-block;
+      padding: 6px 10px;
+      background: #eee7dd;
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 999px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: #fffaf4;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      width: 100%;
+    }
+    .card {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(122,106,83,0.10);
+      box-shadow: 0 16px 30px rgba(122,106,83,0.06);
+      border-radius: 18px;
+    }
+    img { display: block; width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h1>Tactile Gallery Design System</h1>
+    <p class="sub">Light theme exploration for the first three mobile screens. The presentation format mirrors the provided reference with a design-system wrapper, palette preview, typography samples, and labeled 375px phone mockups.</p>
+
+    <h2>Color Palette</h2>
+    <h3>Core Tones</h3>
+    <div class="palette">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#7A6A53"></div>
+        <div class="swatch-info"><div class="swatch-name">Primary</div><div class="swatch-hex">#7A6A53</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#A68A78"></div>
+        <div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-hex">#A68A78</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C4B5A5"></div>
+        <div class="swatch-info"><div class="swatch-name">Tertiary</div><div class="swatch-hex">#C4B5A5</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FAF9F6"></div>
+        <div class="swatch-info"><div class="swatch-name">Natural</div><div class="swatch-hex">#FAF9F6</div></div>
+      </div>
+    </div>
+
+    <h2>Typography</h2>
+    <div class="font-sample">
+      <div class="label">Display / Noto Serif</div>
+      <div class="serif" style="font-size:30px;color:var(--primary);font-style:italic;">The Tactile Gallery</div>
+    </div>
+    <div class="font-sample">
+      <div class="label">Page Heading / Noto Serif</div>
+      <div class="serif" style="font-size:24px;color:var(--text);">Ochre Ribbed Vase</div>
+    </div>
+    <div class="font-sample">
+      <div class="label">Body / Manrope</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.7;">Hand-thrown stoneware with a calm editorial tone, soft neutral surfaces, and tactile storytelling across every screen.</div>
+    </div>
+    <div class="font-sample">
+      <div class="label">Caption / Manrope</div>
+      <div style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:1.2px;">Curated · Studio · Archive</div>
+    </div>
+
+    <h2>Screen Mockups</h2>
+    <p class="sub">375px mobile width inside light device frames. Each screen is adapted from the provided HTML, preserving the visual hierarchy while fitting a mobile-first design-system presentation.</p>
+
+    <h3>Screen 1 · Home</h3>
+    <div class="phone-row">
+      <div class="phone-container">
+        <div class="phone-label">Home Page</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div style="position:sticky;top:0;z-index:10;background:rgba(250,249,246,0.88);backdrop-filter:blur(12px);padding:18px 20px;border-bottom:1px solid rgba(122,106,83,0.08);display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-size:18px;color:var(--primary)">☰</div>
+              <div class="serif" style="font-size:22px;color:var(--text);font-style:italic;">Terra Form Studio</div>
+              <div style="font-size:18px;color:var(--primary)">👜</div>
+            </div>
+
+            <div style="position:relative;height:520px;overflow:hidden;">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC701bcMYiOqcqA0N9T8SmbSd20joLIxo2oWIT0NAoNpZDuFGT5Zq9Sx3fPqp-wB4Ukxay-TCCF-yrTwvNPsFWw_-O6_40RoerDz_sIL1uNualOsh0nomdqdLi4xjsIKM5z-NzexrC-YeXZutD-B3Pcjbew_08SnvG924TNz1_KI3otnWmrdVvzFXzl2EAD8LfMTaw4oHcYYcCkp_FwOvbBlcngYV5vSNEMDdYltTxF-wNzNPthKXBnwqjJXIaVl9TZTIpY3PG59DM" alt="Ceramic vase" loading="lazy">
+              <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(250,249,246,0.85), rgba(250,249,246,0.05));"></div>
+              <div style="position:absolute;left:24px;bottom:28px;right:24px;">
+                <div class="serif" style="font-size:42px;line-height:1.05;color:var(--text);margin-bottom:18px;">Purity in <br><span style="font-style:italic;font-weight:400;">Form</span></div>
+                <button class="btn">Shop the Collection</button>
+              </div>
+            </div>
+
+            <div style="padding:28px 20px 8px;">
+              <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:16px;">
+                <div class="serif" style="font-size:24px;">Collections</div>
+                <div class="caps" style="font-size:10px;color:var(--primary);">View All</div>
+              </div>
+              <div style="display:flex;gap:14px;overflow:hidden;">
+                <div style="width:146px;flex-shrink:0;">
+                  <div class="card" style="overflow:hidden;height:194px;margin-bottom:10px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4mMym2PQMCWU6hX-zjqOUiBmc9QT7iT5zhJ8Zi-I_YWSduglDM3emJtm-cKb7w3jjImZHlLRwTreQrz7LaMHZmlG77rWGI36nzIml7IjNhADhSE5E2FTuygcTK4uU-YFO-j4Sn8pUcdJQ8TrXhGH6gS9x-vzHyOTRnZrAe9l1Abl0NCVVA5IdpoGoC18J7bRUw9aJOdWW2zocjfp3L7bAx3bHc9bVtu9UuvfJtOIf3TpcTlFPaXWb8BGmk8DtJ-wngYgT7Wpjvnk" alt="Tableware" loading="lazy"></div>
+                  <div class="caps" style="font-size:11px;color:var(--text);">Tableware</div>
+                </div>
+                <div style="width:146px;flex-shrink:0;margin-top:26px;">
+                  <div class="card" style="overflow:hidden;height:194px;margin-bottom:10px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfYhVeoyINN60UuU4cOTqx4Tjw61P5Dctb2UfzG7gOcWlBdTtsC83bb1UQ_oq8nMEijnO4OIyhWg7WiXZW0MpYgRJvaLWe6jtKQXZgg47FxusXNeJFQe-uacrxy05XgZ1n2AUVm4VYro8M0tDqWr_2jvdr9MxngINvYJrffgIVPVgRQBIbfLGs9TDEupoETsfi6jJpiESDb3sAeI6adonRj33nys7-ur6ufqgRhpQCKBBHF9qXObULJRR5dAdrHqqEL_hCsbJy8lg" alt="Vases" loading="lazy"></div>
+                  <div class="caps" style="font-size:11px;color:var(--text);">Vases</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:28px 20px;">
+              <div class="card" style="padding:16px;">
+                <div style="overflow:hidden;border-radius:12px;margin-bottom:16px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCMheddG7E1kOSqX4lLNNKQ8y1ycQ4ePiI08nJOnQSHcoGtzEqp8rCVgiL35Wo_JGR7er0i0OwUD3cKRwVOgyfi1vKVlmx7oOW7_o7USOd-7rkteACLzTbqnnQaZB6V43mUT91gmt15H0e4S6DalTt-je6ABit10WO9vGnRTapVbMyWdJRyDpIWNQzCtAnorXOBLWp07vFCSSQLI3Fw22QNbH8cqHq-RVPHWW1LJsg1SYp9MbbY7NOW6AewkTTA2EJJPgphCHystU" alt="Artisan" loading="lazy"></div>
+                <div class="caps" style="font-size:10px;color:var(--primary);margin-bottom:8px;">Artisan Spotlight</div>
+                <div class="serif" style="font-size:28px;line-height:1.2;margin-bottom:10px;">The Soul of Clay: Elena Rossi</div>
+                <div class="muted" style="font-size:14px;line-height:1.7;margin-bottom:14px;">Each vessel Elena crafts tells a story of Tuscan earth, balanced with quiet precision and modern design.</div>
+                <div class="caps" style="font-size:10px;color:var(--text);">Read her story</div>
+              </div>
+            </div>
+
+            <div style="padding:8px 20px 28px;">
+              <div class="serif" style="font-size:24px;text-align:center;margin-bottom:20px;">New Arrivals</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;">
+                <div>
+                  <div class="card" style="overflow:hidden;margin-bottom:10px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbnjuJ3ukmjY7udfqsQgN_Y3zsJ__DLMGBOWcZtQwNwrJuFsrCIj0Vff40gWuAl3DUxtKCdTlPAor3Sb0_tNIQjL9Esxffk_sUHZBRa8B1AWyUD_85gJHF1ST4z4JULRAV-z61UauI0Lz6KxTNBlToQSrSlru2SdWakyADWCvuLe5is4pqzYjPvKMbIktVsV_xhX3VCgD7G34Vwe7p1R4vxTJrXnAOeubhnM0ROyN27c5-2gSVC7ZjK1nvBLQ8Pdob_W_YqU0M1OY" alt="Luna Mug" loading="lazy"></div>
+                  <div class="serif" style="font-size:15px;">Luna Mug</div>
+                  <div class="caps faint" style="font-size:10px;">$42.00</div>
+                </div>
+                <div style="padding-top:24px;">
+                  <div class="card" style="overflow:hidden;margin-bottom:10px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFhHiBmu7IeCus5XF8ujaNUDAzxbz1Jb92nxnGQU5zaRnl9LUXBOvngM-0VMcw2RllCG2r6ErCmLU1lBaVia6_CPaiCJf6g4Aln58OLc_RjhFysLkoxW5hJl8GCTGG-3r_30wBVCA7hr9-Q4TwBWe801smjmq4MpDUx4IfWzfPqGA1pVY7foVgE2COQjAPAHOi0LS357CgSdOWv3rAp0KlcbC6VO7dAPJI-R-t_xxEZnWJx6lHzlE-CnVH3v4YZ0_aHoM43kE3aik" alt="Sand Bowl" loading="lazy"></div>
+                  <div class="serif" style="font-size:15px;">Sand Bowl</div>
+                  <div class="caps faint" style="font-size:10px;">$85.00</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:#efe8df;padding:22px 20px 94px;text-align:center;">
+              <div class="serif" style="font-size:18px;color:var(--primary);margin-bottom:12px;">The Tactile Gallery</div>
+              <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--muted);">
+                <span>Shipping</span><span>Care Guide</span><span>Sustainability</span><span>Contact</span>
+              </div>
+              <div style="font-size:11px;color:var(--muted);">© 2024 The Tactile Gallery. Handcrafted with soul.</div>
+            </div>
+
+            <div style="position:sticky;bottom:0;background:rgba(250,249,246,0.96);backdrop-filter:blur(10px);border-top:1px solid rgba(122,106,83,0.08);display:flex;justify-content:space-around;padding:12px 8px 16px;">
+              <div style="text-align:center;color:var(--primary);font-size:11px;"><div style="font-size:18px;">▦</div>Gallery</div>
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">◔</div>Artisans</div>
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">☰</div>Journal</div>
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">👜</div>Cart</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Screen 2 · Product Detail</h3>
+    <div class="phone-row">
+      <div class="phone-container">
+        <div class="phone-label">Product Detail / Archive</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div style="position:sticky;top:0;z-index:10;background:rgba(250,249,246,0.90);backdrop-filter:blur(12px);padding:18px 20px;border-bottom:1px solid rgba(122,106,83,0.08);display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-size:18px;color:var(--primary)">☰</div>
+              <div class="serif" style="font-size:22px;">The Gallery</div>
+              <div style="font-size:18px;color:var(--primary)">👜</div>
+            </div>
+
+            <div style="padding:18px 20px 0;">
+              <div class="card" style="overflow:hidden;border-radius:18px;">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzy89Q5GCkgZqpWu6p5IluC0pZo51jeo5I-fQ1MLAHqvR9wXlqbYy7iY7g6noF_gtowbi-PRVqKtwWixCxZ2HwvkJVcJJ27ZET1VbnVgCCSG7WkAJvGYHtOYufh82WK-IyU2B3R8Eun6kDOc1C1h2d6bLnw-M04CllmvEI6qYs1wElwtbj3ogI-oeUvhDLMpj4vGt43fKNXkerMkDrTGDA6G4DHfX6IHAMCvT9P-NTtUomNHHoL75-6-NdDMNQE11dKUUd_QCz5eg" alt="Ochre Ribbed Vase" loading="lazy">
+              </div>
+            </div>
+
+            <div style="padding:20px 20px 8px;">
+              <div class="caps faint" style="font-size:10px;margin-bottom:12px;">Archive · Vases</div>
+              <div class="serif" style="font-size:40px;line-height:1.02;margin-bottom:8px;">Ochre Ribbed Vase</div>
+              <div style="font-size:24px;color:var(--secondary);margin-bottom:18px;">$120.00</div>
+              <div class="muted" style="font-size:15px;line-height:1.8;margin-bottom:20px;">Hand-thrown stoneware with a reactive glaze that creates unique tonal variation on every piece. A calm celebration of craft and imperfection.</div>
+            </div>
+
+            <div style="padding:0 20px 8px;">
+              <div class="card" style="padding:16px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+                  <div><div class="caps faint" style="font-size:9px;margin-bottom:6px;">Dimensions</div><div style="font-size:13px;font-weight:600;">8&quot; × 5&quot;</div></div>
+                  <div><div class="caps faint" style="font-size:9px;margin-bottom:6px;">Material</div><div style="font-size:13px;font-weight:600;">Stoneware</div></div>
+                  <div><div class="caps faint" style="font-size:9px;margin-bottom:6px;">Care</div><div style="font-size:13px;font-weight:600;">Hand wash</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:16px 20px 0;">
+              <button class="btn">Add to Bag</button>
+              <div style="display:flex;justify-content:center;gap:24px;margin-top:14px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">
+                <span>Wishlist</span><span>Share</span>
+              </div>
+            </div>
+
+            <div style="padding:26px 20px 10px;">
+              <div class="card" style="padding:18px; background:#f3ede5;">
+                <div class="caps faint" style="font-size:10px;margin-bottom:10px;">Meet the Artisan</div>
+                <div style="display:flex;align-items:center;gap:14px;">
+                  <div style="width:88px;height:88px;border-radius:50%;overflow:hidden;flex-shrink:0;border:5px solid #fffaf6;">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Wv-vnRipPebCOb49swKIKLSE2zUo0yekzNncUWxErC1UZyHiRWFkx48wEhR8cK2AgvzVlx5cs_HNnx7iVY0XYShr8AN5Rck_oYgsEQtl2IJ3uvoYIseSEiQn05odYZJ1LsP1QsbjJDEn9ApTrrmsLdPpfbJqk1iUI0oHfS4Nsf1jYOthnr9-AnL2r0zCLvk7MViL8-ebinSW2U45X8MOK8vepS2DSNqapSD2EyvMypnWRrOPD6fgNXQAbxxP37-tmt9zNNpnkfQ" alt="Elena Rossi" loading="lazy">
+                  </div>
+                  <div>
+                    <div class="serif" style="font-size:24px;line-height:1.25;margin-bottom:8px;">Crafted by Elena Rossi</div>
+                    <div class="muted" style="font-size:13px;line-height:1.7;">Ancient Tuscan methods meet restrained modern form in her studio practice.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:26px 20px 96px;">
+              <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:16px;">
+                <div class="serif" style="font-size:28px;">You May Also Like</div>
+                <div class="caps faint" style="font-size:10px;">See All</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;">
+                <div>
+                  <div class="card" style="overflow:hidden;margin-bottom:8px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8MuBTRCJNUpjgJmHVNBEBXFmUz4sooyuoKE-C_6rLlv5Qjt_K91YFfsUZ4dnFe2ZEfWEJfn-cW-HCEo77wtZ3k9EKJIrJqtGj85kq16QX3nmTdHNAVSx5KGK5zcsA8_K75Yf36vwi-_iBiSzSFjU7IQ5Kv57CWk-l66TmMRp0dKswrPmPj43tBOMf3gO7FCPBWyv3jrTysFNDe-LFccFnbtk3NRp2FliQNkpHM8XPTLSEGYRL9znsbInwO-R62VxExOUtQ21k6vI" alt="Terra Cotta Bowl" loading="lazy"></div>
+                  <div style="font-size:14px;font-weight:600;">Terra Cotta Bowl</div>
+                  <div class="muted" style="font-size:12px;">$45.00</div>
+                </div>
+                <div style="padding-top:22px;">
+                  <div class="card" style="overflow:hidden;margin-bottom:8px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoCH1lQW9u5xm1sQl6MgqIgVM9RaXTKshSt5eciahzFRyTrCxcP8XJlZKUGbIXJ_IW2Ev_SvxjxPRSS4hGBohzLL_fUJ64Cq86_ntyTDvlz0Nxt_eaMuZgWOeTuynKcdfhfHdWC8P5sPbaHD35sfEQUsNsX42MlqVJwsM6rJjEEyJeR9F1liu3-7hmaDF4aeMREnjTVgrBxttjekhQ9ciLItRVunHmnSAXlgBsR8Da0KQPotrOQ2gYPh2NnnyoFsNyjyxWSmR_GI8" alt="Tea Cup" loading="lazy"></div>
+                  <div style="font-size:14px;font-weight:600;">Wabi-Sabi Tea Cup</div>
+                  <div class="muted" style="font-size:12px;">$28.00</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="position:sticky;bottom:0;background:rgba(250,249,246,0.96);backdrop-filter:blur(10px);border-top:1px solid rgba(122,106,83,0.08);display:flex;justify-content:space-around;padding:12px 8px 16px;">
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">▦</div>Curated</div>
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">☰</div>Studio</div>
+              <div style="text-align:center;color:var(--primary);font-size:11px;"><div style="font-size:18px;">✎</div>Archive</div>
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">👜</div>Cart</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Screen 3 · Artisan Profile</h3>
+    <div class="phone-row">
+      <div class="phone-container">
+        <div class="phone-label">Artisan Profile</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div style="position:sticky;top:0;z-index:10;background:rgba(250,249,246,0.90);backdrop-filter:blur(12px);padding:18px 20px;border-bottom:1px solid rgba(122,106,83,0.08);display:flex;justify-content:space-between;align-items:center;">
+              <div style="font-size:18px;color:var(--primary)">☰</div>
+              <div class="serif" style="font-size:22px;font-style:italic;color:var(--primary);">The Tactile Gallery</div>
+              <div style="font-size:18px;color:var(--primary)">👜</div>
+            </div>
+
+            <div style="height:260px;overflow:hidden;">
+              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjaZ8UVDxxgSrrcxflAGLa2vAIiUnmz9b-Zlmhdl8HFPb6-4jzwLGwIpvMZxJrfAO9ZpYfGY0KVg4nP1NB2KFaXLDW8aQMQuETd2CyDOAl1ODiokYSDKJ3FkDYYhNAEFlUqyTvARpfY3510oN8JPk3-XjKCYhX6NLsuoqfDB6q6hPkqs08tWkZW-c5-_1qziUIkyv_eyNxtdr1mBrqbW9Y-qHrMnchD1lIR6qStn8yI_pL2VhTlXbHwfzvP-0NtveFL5qalBRE43g" alt="Ceramic studio" loading="lazy">
+            </div>
+
+            <div style="padding:0 20px;position:relative;top:-40px;margin-bottom:-22px;">
+              <div style="display:flex;gap:16px;align-items:end;">
+                <div style="width:108px;height:138px;overflow:hidden;border-radius:4px;box-shadow:0 18px 36px rgba(122,106,83,0.18);flex-shrink:0;">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdLvwfNNoDDn-NMe3uJGCnNROVu9iySkpzxkpdo-8aLJqJMmtsMfrgFF236C3sgKNKygUpkf3lGdHnNsmGGCas_f2uYvOIGgkyudN5jvJ2p4fZqkNu8nlB8em5uxyQQp7uYFFcUfIr6Xr3fypnIsyQ-JDhEfMSNK__v4dPDgsH3C1OMVKdjxsjsBHN3Y3_PVrHEggi6rOlO4prSS-vHrVY9DdUUeVAgjCMJuWRYjbYAqQUZ1I1RxoQmtG0geRkHw4HZUQPEw9mv3g" alt="Elena Rossi" loading="lazy">
+                </div>
+                <div style="padding-bottom:10px;">
+                  <div class="serif" style="font-size:42px;line-height:0.95;color:var(--primary);margin-bottom:10px;">Elena Rossi</div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <span class="chip">Master Artisan</span>
+                    <span class="chip">Tuscany, Italy</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:0 20px 10px;">
+              <div class="serif" style="font-size:28px;line-height:1.28;margin-bottom:16px;">Inspiration drawn from rolling sienna hills and the rhythmic breath of the Tyrrhenian Sea.</div>
+              <div class="muted" style="font-size:14px;line-height:1.85;display:grid;gap:14px;">
+                <p>Elena Rossi’s work is a dialogue between the raw earth of Tuscany and the disciplined hands of a lifelong maker.</p>
+                <p>Her process is slow and attentive, with local stoneware, mineral glazes, and firing methods that ensure each piece carries its own atmosphere.</p>
+              </div>
+            </div>
+
+            <div style="padding:14px 20px 10px;">
+              <div class="card" style="padding:18px;display:grid;gap:18px;background:#f3ede5;">
+                <div>
+                  <div class="caps" style="font-size:10px;color:var(--primary);margin-bottom:8px;">The Material</div>
+                  <div style="font-size:14px;line-height:1.7;">Local Tuscan stoneware, filtered mountain water, and hand-ground mineral oxides.</div>
+                </div>
+                <div>
+                  <div class="caps" style="font-size:10px;color:var(--primary);margin-bottom:8px;">The Firing</div>
+                  <div style="font-size:14px;line-height:1.7;">Oxidation firing at 1220°C for strength and restrained tonal depth.</div>
+                </div>
+                <div>
+                  <div class="caps" style="font-size:10px;color:var(--primary);margin-bottom:8px;">The Glaze</div>
+                  <div style="font-size:14px;line-height:1.7;">Signature matte Oatmeal and Dusty Sage glazes refined in studio over a decade.</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:24px 20px 10px;">
+              <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:16px;">
+                <div>
+                  <div class="serif" style="font-size:28px;color:var(--primary);">Available Works</div>
+                  <div class="muted" style="font-size:13px;margin-top:6px;">Current pieces from Terra and Silent Sea.</div>
+                </div>
+              </div>
+              <div style="display:grid;gap:18px;">
+                <div>
+                  <div class="card" style="overflow:hidden;margin-bottom:10px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz6tGjvnAQkRQuBZ24UQ1JWdD2jRoa067fEXT3NLRZd9Ynjr0JyNHjpnU7kcEE3nbuzOR4OFEhJgBgBIBM2vJUmvztwN67xOW1CSHk0rSXLAfgLbiQZPeY9QlQDzUJOiyC41ZFN3_2huTPE3jffRhK1nl0cj-hjL2R5N_K_s6XJvYoVBw-RXQbvJrLHHc-FBS-Klcep5ylGxsqGJNVtu9sPBktot0y5lXO8axH0D6tjNqkKwXTYg0y8C5QW9hIzOmAuvKgkzjNnHY" alt="Earthy Tray" loading="lazy"></div>
+                  <div style="display:flex;justify-content:space-between;gap:14px;align-items:start;">
+                    <div><div class="serif" style="font-size:20px;">Earthy Tray</div><div class="caps faint" style="font-size:10px;">Stoneware · Terra Collection</div></div>
+                    <div style="color:var(--primary);font-weight:700;">€85</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="card" style="overflow:hidden;margin-bottom:10px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdhf4JVrkR5vQeInctMT4GerAtNghzMGrXL3ypxJ_aV0q52JLbbAlbCx_Jc1_jPSKhGkqQgd5oZzbRt_Gk-Te2CppDbDVNyCcjVMUTEzhKhbiq0C7daaDsK9fOHvFme7Qxdlu5DKx2CEz3Qy42r9z_cvjbqRID2yLOr1IGQnh6sMYmIcBnFxatfWy8V4F-7UbuI8IQKREc-0EHEhkvL5DARO5HDWoktQan1RtjrrM6wHyfQurQUy5FbjObglDhELLYIGwMZxNNvNU" alt="Sand Bowl" loading="lazy"></div>
+                  <div style="display:flex;justify-content:space-between;gap:14px;align-items:start;">
+                    <div><div class="serif" style="font-size:20px;">Sand Bowl</div><div class="caps faint" style="font-size:10px;">Porcelain · Silent Sea</div></div>
+                    <div style="color:var(--primary);font-weight:700;">€62</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="card" style="overflow:hidden;margin-bottom:10px;"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxM63AHpl_IqX-hr-vsa1aH5xIsUBfksbnsvrvKc8iZJ64L6t-LF98Vnft1dlOTEE3dNbDOh6JjShu6FvrgQZVvH5ebUl8g_igu_wHHQC35g3DBdtTHXz7VhW-6hBB8nhlXChDA76SzW4QI4OJxxsEQhS8EYOBUlML1xwRSUMZ13S_Flg8CSXEr-bdL9qUcgegcXaDjxXdzNj1g-VAx_eAcvp9P5iML8xES8rn91Jfn4KWAG_KcmfIu28EvesbFSpkM6kUI4Yy0os" alt="Olive Vessel" loading="lazy"></div>
+                  <div style="display:flex;justify-content:space-between;gap:14px;align-items:start;">
+                    <div><div class="serif" style="font-size:20px;">Olive Vessel</div><div class="caps faint" style="font-size:10px;">Stoneware · Studio Original</div></div>
+                    <div style="color:var(--primary);font-weight:700;">€140</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:#efe8df;padding:28px 20px 100px;margin-top:16px;">
+              <div style="text-align:center;">
+                <div style="font-size:28px;color:var(--primary);margin-bottom:12px;">✉</div>
+                <div class="serif" style="font-size:30px;margin-bottom:12px;">Studio Letters</div>
+                <div class="muted" style="font-size:14px;line-height:1.8;margin:0 auto 18px;max-width:280px;">Receive occasional updates on new firings, studio notes, and upcoming workshop dates.</div>
+                <div class="card" style="padding:14px 14px 16px;background:rgba(255,255,255,0.75);">
+                  <div style="font-size:13px;color:var(--faint);text-align:left;padding-bottom:10px;border-bottom:1px solid rgba(122,106,83,0.12);margin-bottom:12px;">Your email address</div>
+                  <button class="btn">Subscribe</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="position:sticky;bottom:0;background:rgba(250,249,246,0.96);backdrop-filter:blur(10px);border-top:1px solid rgba(122,106,83,0.08);display:flex;justify-content:space-around;padding:12px 8px 16px;">
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">⌂</div>Discover</div>
+              <div style="text-align:center;color:var(--primary);font-size:11px;"><div style="font-size:18px;">✦</div>Artists</div>
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">▦</div>Collections</div>
+              <div style="text-align:center;color:var(--muted);font-size:11px;"><div style="font-size:18px;">👜</div>Cart</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
