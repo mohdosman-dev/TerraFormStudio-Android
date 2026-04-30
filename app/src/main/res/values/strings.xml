@@ -4,4 +4,5 @@
     <string name="error_server">A server error occurred. Please try again later.</string>
     <string name="error_unauthorized">You are not authorized to view this content.</string>
     <string name="error_unknown">An unknown error occurred.</string>
+    <string name="added_to_cart">The piece has been added to your collection.</string>
 </resources>

@@ -39,7 +39,7 @@ fun HomeSectionDto.toDomain(): HomeSection {
 
 fun ArtisanDto.toDomain(): HomeArtisan {
     return HomeArtisan(
-        id = _id,
+        id = id,
         name = displayName,
         philosophy = studioStory?.philosophy,
         studioImageUrl = heroImage?.url
@@ -48,7 +48,7 @@ fun ArtisanDto.toDomain(): HomeArtisan {
 
 fun ProductDto.toDomain(): HomeProduct {
     return HomeProduct(
-        id = _id,
+        id = id,
         title = title,
         price = price.amount,
         imageUrl = media?.firstOrNull()?.url ?: ""
@@ -57,7 +57,7 @@ fun ProductDto.toDomain(): HomeProduct {
 
 fun CollectionDto.toDomain(): HomeCollection {
     return HomeCollection(
-        id = _id,
+        id = id,
         title = title,
         imageUrl = heroImage?.url
     )
