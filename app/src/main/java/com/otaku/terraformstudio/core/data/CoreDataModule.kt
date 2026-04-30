@@ -29,8 +29,14 @@ val coreDataModule = module {
 
     single<Retrofit> {
         val contentType = "application/json".toMediaType()
+        val baseUrl = if (Constants.BASE_URL.endsWith("/")) {
+            "${Constants.BASE_URL}api/"
+        } else {
+            "${Constants.BASE_URL}/api/"
+        }
+        
         Retrofit.Builder()
-            .baseUrl("${Constants.BASE_URL}/api/")
+            .baseUrl(baseUrl)
             .client(get())
             .addConverterFactory(get<Json>().asConverterFactory(contentType))
             .build()
