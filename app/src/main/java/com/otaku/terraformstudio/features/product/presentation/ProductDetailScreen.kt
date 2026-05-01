@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.otaku.terraformstudio.core.presentation.ObserveAsEvents
+import com.otaku.terraformstudio.core.presentation.components.AppBottomNavigation
 import com.otaku.terraformstudio.core.presentation.components.ProductCard
 import com.otaku.terraformstudio.features.product.domain.ProductDetail
 import com.otaku.terraformstudio.ui.theme.NotoSerif
@@ -294,10 +295,11 @@ fun ProductDetailScreen(
                                     ) {
                                         ProductCard(
                                             id = related.id,
+                                            slug = related.slug,
                                             title = related.title,
                                             price = related.price,
                                             imageUrl = related.imageUrl,
-                                            onClick = { onAction(ProductDetailAction.OnRelatedProductClick(related.id, related.id)) }
+                                            onClick = { onAction(ProductDetailAction.OnRelatedProductClick(related.id, related.slug)) }
                                         )
                                     }
                                 }
@@ -326,46 +328,8 @@ private fun SpecItem(label: String, value: String) {
         Text(
             text = value,
             fontSize = 13.sp,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.Bold,
             color = Color(0xFF2F2A24)
-        )
-    }
-}
-
-@Composable
-private fun AppBottomNavigation() {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        border = BorderStroke(1.dp, Color(0xFF7A6A53).copy(alpha = 0.08f)),
-        color = Color(0xFFFAF9F6).copy(alpha = 0.96f)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 12.dp, horizontal = 8.dp)
-                .navigationBarsPadding()
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            NavItem(label = "Curated", icon = "▦", isSelected = false)
-            NavItem(label = "Studio", icon = "☰", isSelected = false)
-            NavItem(label = "Archive", icon = "✎", isSelected = true)
-            NavItem(label = "Cart", icon = "👜", isSelected = false)
-        }
-    }
-}
-
-@Composable
-private fun NavItem(label: String, icon: String, isSelected: Boolean) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = icon, 
-            fontSize = 18.sp, 
-            color = if (isSelected) Color(0xFF7A6A53) else Color(0xFF7F7468)
-        )
-        Text(
-            text = label, 
-            fontSize = 11.sp, 
-            color = if (isSelected) Color(0xFF7A6A53) else Color(0xFF7F7468)
         )
     }
 }

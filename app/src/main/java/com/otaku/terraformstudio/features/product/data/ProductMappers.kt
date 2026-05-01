@@ -7,7 +7,7 @@ import com.otaku.terraformstudio.features.product.domain.ProductSpecifications
 
 fun FullProductDto.toDomain(): ProductDetail {
     return ProductDetail(
-        id = _id,
+        id = id,
         slug = slug,
         title = title,
         subtitle = subtitle,
@@ -32,12 +32,11 @@ fun ProductMediaDto.toDomain(): ProductMedia {
 fun SpecificationsDto.toDomain(): ProductSpecifications {
     val dimStr = dimensions?.let {
         listOfNotNull(
-            it.widthCm?.let { w -> "${w}cm w" },
-            it.heightCm?.let { h -> "${h}cm h" },
-            it.weightGrams?.let { g -> "${g}g" }
-        ).joinToString(", ")
+            it.widthCm?.let { w -> "${w.toInt()}\"" },
+            it.heightCm?.let { h -> "${h.toInt()}\"" }
+        ).joinToString(" x ")
     }
-    
+
     return ProductSpecifications(
         material = material,
         technique = technique,
