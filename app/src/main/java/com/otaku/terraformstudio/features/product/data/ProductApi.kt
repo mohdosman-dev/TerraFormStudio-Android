@@ -4,6 +4,7 @@ import com.otaku.terraformstudio.features.home.data.ArtisanDto
 import com.otaku.terraformstudio.features.home.data.ImageDto
 import com.otaku.terraformstudio.features.home.data.PriceDto
 import com.otaku.terraformstudio.features.home.data.ProductDto
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,7 +16,8 @@ interface ProductApi {
 
 @Serializable
 data class FullProductDto(
-    val _id: String,
+    @SerialName("_id")
+    val id: String,
     val slug: String,
     val title: String,
     val subtitle: String? = null,

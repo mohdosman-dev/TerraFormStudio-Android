@@ -37,7 +37,7 @@ fun HomeRoot(
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            is HomeEvent.NavigateToProduct -> onNavigateToProduct(event.productId)
+            is HomeEvent.NavigateToProduct -> onNavigateToProduct(event.slug)
             is HomeEvent.NavigateToArtisan -> onNavigateToArtisan(event.artisanId)
             is HomeEvent.NavigateToCollection -> onNavigateToCollection(event.collectionId)
             is HomeEvent.ShowError -> { /* Show Snackbar */ }
@@ -225,6 +225,7 @@ fun HomeProductRow(section: HomeSection, onAction: (HomeAction) -> Unit) {
                 rowProducts.forEach { product ->
                     ProductCard(
                         id = product.id,
+                        slug = product.slug,
                         title = product.title,
                         price = product.price,
                         imageUrl = product.imageUrl,

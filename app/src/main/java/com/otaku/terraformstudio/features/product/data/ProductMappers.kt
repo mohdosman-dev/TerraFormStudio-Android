@@ -14,7 +14,7 @@ fun FullProductDto.toDomain(): ProductDetail {
         descriptionLong = descriptionLong,
         price = price.amount,
         currency = price.currency,
-        media = media.map { it.toDomain() }.sortedBy { it.sortOrder },
+        media = media.map { it.toDomain() },
         specifications = specifications.toDomain(),
         artisan = artisanId.toDomain(),
         relatedProducts = discovery?.relatedProductIds?.map { it.toDomain() } ?: emptyList()

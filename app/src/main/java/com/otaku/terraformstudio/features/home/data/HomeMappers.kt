@@ -49,6 +49,7 @@ fun ArtisanDto.toDomain(): HomeArtisan {
 fun ProductDto.toDomain(): HomeProduct {
     return HomeProduct(
         id = id,
+        slug = slug,
         title = title,
         price = price.amount,
         imageUrl = media?.firstOrNull()?.url ?: ""
@@ -58,6 +59,7 @@ fun ProductDto.toDomain(): HomeProduct {
 fun CollectionDto.toDomain(): HomeCollection {
     return HomeCollection(
         id = id,
+        slug = slug,
         title = title,
         imageUrl = heroImage?.url
     )

@@ -32,6 +32,7 @@ data class HomeArtisan(
 
 data class HomeProduct(
     val id: String,
+    val slug: String,
     val title: String,
     val price: Double,
     val imageUrl: String
@@ -39,6 +40,7 @@ data class HomeProduct(
 
 data class HomeCollection(
     val id: String,
+    val slug: String,
     val title: String,
     val imageUrl: String?
 )

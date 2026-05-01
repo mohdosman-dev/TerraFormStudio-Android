@@ -17,6 +17,7 @@ import coil.compose.AsyncImage
 @Composable
 fun ProductCard(
     id: String,
+    slug: String,
     title: String,
     price: Double,
     imageUrl: String,
@@ -24,7 +25,7 @@ fun ProductCard(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.clickable { onClick(id) }
+        modifier = modifier.clickable { onClick(slug) }
     ) {
         AsyncImage(
             model = imageUrl,

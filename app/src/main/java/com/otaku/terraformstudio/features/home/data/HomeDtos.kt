@@ -56,6 +56,7 @@ data class StudioStoryDto(
 data class ProductDto(
     @SerialName("_id")
     val id: String,
+    val slug: String,
     val title: String,
     val price: PriceDto,
     val media: List<ImageDto>? = null
@@ -71,6 +72,7 @@ data class PriceDto(
 data class CollectionDto(
     @SerialName("_id")
     val id: String,
+    val slug: String,
     val title: String,
     val description: String? = null,
     val heroImage: ImageDto? = null

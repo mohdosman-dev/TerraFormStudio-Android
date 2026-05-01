@@ -33,7 +33,7 @@ class HomeViewModel(
         when (action) {
             HomeAction.OnRefresh -> loadHomeConfiguration()
             is HomeAction.OnProductClick -> {
-                viewModelScope.launch { _events.send(HomeEvent.NavigateToProduct(action.productId)) }
+                viewModelScope.launch { _events.send(HomeEvent.NavigateToProduct(action.slug)) }
             }
             is HomeAction.OnArtisanClick -> {
                 viewModelScope.launch { _events.send(HomeEvent.NavigateToArtisan(action.artisanId)) }
