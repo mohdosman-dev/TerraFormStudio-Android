@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.*
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,7 +39,7 @@ fun ProductDetailRoot(
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            is ProductDetailEvent.ShowSnackbar -> { /* Launch snackbar */ }
+            is ProductDetailEvent.ShowSnackbar -> { /* Implement snackbar show */ }
             is ProductDetailEvent.NavigateToProduct -> onNavigateToProduct(event.slug)
             ProductDetailEvent.NavigateBack -> onBackClick()
         }
@@ -62,6 +60,7 @@ fun ProductDetailScreen(
     snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
+        containerColor = Color(0xFFFAF9F6),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
@@ -71,11 +70,12 @@ fun ProductDetailScreen(
                         fontFamily = NotoSerif,
                         fontSize = 22.sp,
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = Color(0xFF2F2A24)
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* Open Drawer */ }) {
+                    IconButton(onClick = { onAction(ProductDetailAction.OnBackClick) }) {
                         Icon(Icons.Default.Menu, contentDescription = "Menu", tint = Color(0xFF7A6A53))
                     }
                 },
@@ -85,7 +85,7 @@ fun ProductDetailScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.90f)
+                    containerColor = Color(0xFFFAF9F6).copy(alpha = 0.90f)
                 )
             )
         },
@@ -104,33 +104,33 @@ fun ProductDetailScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(padding)
-                    .background(Color(0xFFFAF9F6))
             ) {
-                // Main Product Image Card
+                // Product Image Card
                 Box(modifier = Modifier.padding(horizontal = 20.dp, vertical = 18.dp)) {
                     Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f),
+                        modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(18.dp),
                         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
                         AsyncImage(
                             model = product.media.firstOrNull()?.url,
                             contentDescription = product.title,
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(0.85f),
                             contentScale = ContentScale.Crop
                         )
                     }
                 }
 
-                // Title and Price
+                // Info Section
                 Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 20.dp)) {
                     Text(
-                        text = "ARCHIVE · VASES", // Mockup had this tag
-                        style = MaterialTheme.typography.labelSmall,
+                        text = "ARCHIVE · VASES",
+                        fontSize = 10.sp,
                         color = Color(0xFFA29689),
                         letterSpacing = 2.sp,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 12.dp)
                     )
                     Text(
@@ -138,7 +138,6 @@ fun ProductDetailScreen(
                         fontFamily = NotoSerif,
                         fontSize = 40.sp,
                         lineHeight = 41.sp,
-                        fontWeight = FontWeight.Normal,
                         color = Color(0xFF2F2A24),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
@@ -156,7 +155,7 @@ fun ProductDetailScreen(
                     )
                 }
 
-                // Specs Grid Card
+                // Specifications Grid Card
                 Card(
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
                     shape = RoundedCornerShape(18.dp),
@@ -164,20 +163,24 @@ fun ProductDetailScreen(
                     border = BorderStroke(1.dp, Color(0xFF7A6A53).copy(alpha = 0.1f))
                 ) {
                     Row(
-                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        SpecItem(label = "Dimensions", value = product.specifications.dimensions ?: "8\" x 5\"")
+                        SpecItem(label = "Dimensions", value = product.specifications.dimensions ?: "8\" × 5\"")
                         SpecItem(label = "Material", value = product.specifications.material)
                         SpecItem(label = "Care", value = product.specifications.care)
                     }
                 }
 
-                // Add to Bag Button
+                // Actions
                 Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
                     Button(
                         onClick = { onAction(ProductDetailAction.OnAddToCart) },
-                        modifier = Modifier.fillMaxWidth().height(56.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF7A6A53))
                     ) {
@@ -185,15 +188,31 @@ fun ProductDetailScreen(
                     }
                     
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(top = 14.dp),
-                        horizontalArrangement = Arrangement.Center
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 14.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "WISHLIST", fontSize = 11.sp, letterSpacing = 1.sp, color = Color(0xFF7F7468), modifier = Modifier.padding(horizontal = 12.dp))
-                        Text(text = "SHARE", fontSize = 11.sp, letterSpacing = 1.sp, color = Color(0xFF7F7468), modifier = Modifier.padding(horizontal = 12.dp))
+                        Text(
+                            text = "WISHLIST", 
+                            fontSize = 11.sp, 
+                            letterSpacing = 1.sp, 
+                            color = Color(0xFF7F7468),
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(24.dp))
+                        Text(
+                            text = "SHARE", 
+                            fontSize = 11.sp, 
+                            letterSpacing = 1.sp, 
+                            color = Color(0xFF7F7468),
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
 
-                // Meet the Artisan Card
+                // Artisan Section
                 Card(
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 26.dp),
                     shape = RoundedCornerShape(18.dp),
@@ -205,6 +224,7 @@ fun ProductDetailScreen(
                             fontSize = 10.sp,
                             color = Color(0xFFA29689),
                             letterSpacing = 1.sp,
+                            fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -214,7 +234,7 @@ fun ProductDetailScreen(
                                 modifier = Modifier
                                     .size(88.dp)
                                     .clip(CircleShape)
-                                    .border(5.dp, Color(0xFFFAF6F6), CircleShape),
+                                    .border(5.dp, Color.White, CircleShape),
                                 contentScale = ContentScale.Crop
                             )
                             Spacer(modifier = Modifier.width(14.dp))
@@ -237,24 +257,41 @@ fun ProductDetailScreen(
                     }
                 }
 
-                // Related Products
+                // Recommendations
                 if (product.relatedProducts.isNotEmpty()) {
-                    Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 26.dp).padding(bottom = 96.dp)) {
+                    Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 26.dp).padding(bottom = 100.dp)) {
                         Row(
                             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.Bottom
                         ) {
-                            Text(text = "You May Also Like", fontFamily = NotoSerif, fontSize = 28.sp)
-                            Text(text = "SEE ALL", fontSize = 10.sp, color = Color(0xFFA29689), letterSpacing = 1.sp)
+                            Text(
+                                text = "You May Also Like", 
+                                fontFamily = NotoSerif, 
+                                fontSize = 28.sp,
+                                color = Color(0xFF2F2A24)
+                            )
+                            Text(
+                                text = "SEE ALL", 
+                                fontSize = 10.sp, 
+                                color = Color(0xFFA29689), 
+                                letterSpacing = 1.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                         
-                        // 2-column grid implementation
-                        val relatedRows = product.relatedProducts.chunked(2)
-                        relatedRows.forEach { row ->
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        val chunked = product.relatedProducts.chunked(2)
+                        chunked.forEachIndexed { index, row ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(), 
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
                                 row.forEach { related ->
-                                    Column(modifier = Modifier.weight(1f).padding(bottom = 12.dp)) {
+                                    Column(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(top = if (index > 0 && row.indexOf(related) == 1) 22.dp else 0.dp)
+                                    ) {
                                         ProductCard(
                                             id = related.id,
                                             title = related.title,
@@ -266,6 +303,7 @@ fun ProductDetailScreen(
                                 }
                                 if (row.size == 1) Spacer(modifier = Modifier.weight(1f))
                             }
+                            Spacer(modifier = Modifier.height(12.dp))
                         }
                     }
                 }
@@ -275,13 +313,14 @@ fun ProductDetailScreen(
 }
 
 @Composable
-fun SpecItem(label: String, value: String) {
+private fun SpecItem(label: String, value: String) {
     Column {
         Text(
             text = label.uppercase(),
             fontSize = 9.sp,
             color = Color(0xFFA29689),
             letterSpacing = 1.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 6.dp)
         )
         Text(
@@ -294,15 +333,17 @@ fun SpecItem(label: String, value: String) {
 }
 
 @Composable
-fun AppBottomNavigation() {
-    // Shared component, for now matching mockup style
+private fun AppBottomNavigation() {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         border = BorderStroke(1.dp, Color(0xFF7A6A53).copy(alpha = 0.08f)),
         color = Color(0xFFFAF9F6).copy(alpha = 0.96f)
     ) {
         Row(
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp).padding(bottom = 16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(vertical = 12.dp, horizontal = 8.dp)
+                .navigationBarsPadding()
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             NavItem(label = "Curated", icon = "▦", isSelected = false)
@@ -314,9 +355,17 @@ fun AppBottomNavigation() {
 }
 
 @Composable
-fun NavItem(label: String, icon: String, isSelected: Boolean) {
+private fun NavItem(label: String, icon: String, isSelected: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = icon, fontSize = 18.sp, color = if (isSelected) Color(0xFF7A6A53) else Color(0xFF7F7468))
-        Text(text = label, fontSize = 11.sp, color = if (isSelected) Color(0xFF7A6A53) else Color(0xFF7F7468))
+        Text(
+            text = icon, 
+            fontSize = 18.sp, 
+            color = if (isSelected) Color(0xFF7A6A53) else Color(0xFF7F7468)
+        )
+        Text(
+            text = label, 
+            fontSize = 11.sp, 
+            color = if (isSelected) Color(0xFF7A6A53) else Color(0xFF7F7468)
+        )
     }
 }
