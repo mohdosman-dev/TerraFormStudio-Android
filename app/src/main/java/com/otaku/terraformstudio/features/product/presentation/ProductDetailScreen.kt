@@ -1,14 +1,42 @@
 package com.otaku.terraformstudio.features.product.presentation
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.ShoppingBag
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,9 +49,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.otaku.terraformstudio.core.presentation.ObserveAsEvents
-import com.otaku.terraformstudio.core.presentation.components.AppBottomNavigation
 import com.otaku.terraformstudio.core.presentation.components.ProductCard
-import com.otaku.terraformstudio.features.product.domain.ProductDetail
+import com.otaku.terraformstudio.core.presentation.components.TerraPrimaryButton
 import com.otaku.terraformstudio.ui.theme.NotoSerif
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -33,6 +60,7 @@ fun ProductDetailRoot(
     slug: String,
     onBackClick: () -> Unit,
     onNavigateToProduct: (String) -> Unit,
+    onNavigateToArtisan: (String) -> Unit,
     viewModel: ProductDetailViewModel = koinViewModel(parameters = { parametersOf(slug) })
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -40,9 +68,12 @@ fun ProductDetailRoot(
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            is ProductDetailEvent.ShowSnackbar -> { /* Implement snackbar show */ }
+            is ProductDetailEvent.ShowSnackbar -> { /* Implement snackbar show */
+            }
+
             is ProductDetailEvent.NavigateToProduct -> onNavigateToProduct(event.slug)
-            ProductDetailEvent.NavigateBack -> onBackClick()
+            is ProductDetailEvent.NavigateBack -> onBackClick()
+            is ProductDetailEvent.NavigateToArtisan -> onNavigateToArtisan(event.slug)
         }
     }
 
@@ -77,12 +108,20 @@ fun ProductDetailScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = { onAction(ProductDetailAction.OnBackClick) }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu", tint = Color(0xFF7A6A53))
+                        Icon(
+                            Icons.Default.Menu,
+                            contentDescription = "Menu",
+                            tint = Color(0xFF7A6A53)
+                        )
                     }
                 },
                 actions = {
                     IconButton(onClick = { /* Open Cart */ }) {
-                        Icon(Icons.Default.ShoppingBag, contentDescription = "Cart", tint = Color(0xFF7A6A53))
+                        Icon(
+                            Icons.Default.ShoppingBag,
+                            contentDescription = "Cart",
+                            tint = Color(0xFF7A6A53)
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -90,9 +129,6 @@ fun ProductDetailScreen(
                 )
             )
         },
-        bottomBar = {
-            AppBottomNavigation()
-        }
     ) { padding ->
         if (state.isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -169,7 +205,10 @@ fun ProductDetailScreen(
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        SpecItem(label = "Dimensions", value = product.specifications.dimensions ?: "8\" × 5\"")
+                        SpecItem(
+                            label = "Dimensions",
+                            value = product.specifications.dimensions ?: "8\" × 5\""
+                        )
                         SpecItem(label = "Material", value = product.specifications.material)
                         SpecItem(label = "Care", value = product.specifications.care)
                     }
@@ -177,17 +216,14 @@ fun ProductDetailScreen(
 
                 // Actions
                 Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
-                    Button(
-                        onClick = { onAction(ProductDetailAction.OnAddToCart) },
+
+                    TerraPrimaryButton(
+                        text = "Add to bag",
+                        onClick = { },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF7A6A53))
-                    ) {
-                        Text(text = "Add to Bag", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                    }
-                    
+                    )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -196,17 +232,17 @@ fun ProductDetailScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "WISHLIST", 
-                            fontSize = 11.sp, 
-                            letterSpacing = 1.sp, 
+                            text = "WISHLIST",
+                            fontSize = 11.sp,
+                            letterSpacing = 1.sp,
                             color = Color(0xFF7F7468),
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.width(24.dp))
                         Text(
-                            text = "SHARE", 
-                            fontSize = 11.sp, 
-                            letterSpacing = 1.sp, 
+                            text = "SHARE",
+                            fontSize = 11.sp,
+                            letterSpacing = 1.sp,
                             color = Color(0xFF7F7468),
                             fontWeight = FontWeight.Bold
                         )
@@ -215,7 +251,13 @@ fun ProductDetailScreen(
 
                 // Artisan Section
                 Card(
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 26.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp, vertical = 26.dp)
+                        .clickable {
+                            onAction(
+                                ProductDetailAction.OnArtisanCardClicked(product.artisan.slug)
+                            )
+                        },
                     shape = RoundedCornerShape(18.dp),
                     colors = CardDefaults.cardColors(containerColor = Color(0xFFF3EDE5))
                 ) {
@@ -230,7 +272,7 @@ fun ProductDetailScreen(
                         )
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             AsyncImage(
-                                model = product.artisan.studioImageUrl,
+                                model = product.artisan?.studioImageUrl,
                                 contentDescription = product.artisan.name,
                                 modifier = Modifier
                                     .size(88.dp)
@@ -260,31 +302,37 @@ fun ProductDetailScreen(
 
                 // Recommendations
                 if (product.relatedProducts.isNotEmpty()) {
-                    Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 26.dp).padding(bottom = 100.dp)) {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 26.dp)
+                            .padding(bottom = 100.dp)
+                    ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.Bottom
                         ) {
                             Text(
-                                text = "You May Also Like", 
-                                fontFamily = NotoSerif, 
+                                text = "You May Also Like",
+                                fontFamily = NotoSerif,
                                 fontSize = 28.sp,
                                 color = Color(0xFF2F2A24)
                             )
                             Text(
-                                text = "SEE ALL", 
-                                fontSize = 10.sp, 
-                                color = Color(0xFFA29689), 
+                                text = "SEE ALL",
+                                fontSize = 10.sp,
+                                color = Color(0xFFA29689),
                                 letterSpacing = 1.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
-                        
+
                         val chunked = product.relatedProducts.chunked(2)
                         chunked.forEachIndexed { index, row ->
                             Row(
-                                modifier = Modifier.fillMaxWidth(), 
+                                modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
                                 row.forEach { related ->
@@ -299,7 +347,14 @@ fun ProductDetailScreen(
                                             title = related.title,
                                             price = related.price,
                                             imageUrl = related.imageUrl,
-                                            onClick = { onAction(ProductDetailAction.OnRelatedProductClick(related.id, related.slug)) }
+                                            onClick = {
+                                                onAction(
+                                                    ProductDetailAction.OnRelatedProductClick(
+                                                        related.id,
+                                                        related.slug
+                                                    )
+                                                )
+                                            }
                                         )
                                     }
                                 }

@@ -38,14 +38,22 @@ class ProductDetailViewModel(
                     _events.send(ProductDetailEvent.ShowSnackbar(UiText.StringResource(R.string.added_to_cart)))
                 }
             }
+
             is ProductDetailAction.OnRelatedProductClick -> {
                 viewModelScope.launch {
                     _events.send(ProductDetailEvent.NavigateToProduct(action.slug))
                 }
             }
-            ProductDetailAction.OnBackClick -> {
+
+            is ProductDetailAction.OnBackClick -> {
                 viewModelScope.launch {
                     _events.send(ProductDetailEvent.NavigateBack)
+                }
+            }
+
+            is ProductDetailAction.OnArtisanCardClicked -> {
+                viewModelScope.launch {
+                    _events.send(ProductDetailEvent.NavigateToArtisan(action.slug))
                 }
             }
         }
