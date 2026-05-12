@@ -38,7 +38,7 @@ fun HomeRoot(
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             is HomeEvent.NavigateToProduct -> onNavigateToProduct(event.slug)
-            is HomeEvent.NavigateToArtisan -> onNavigateToArtisan(event.artisanId)
+            is HomeEvent.NavigateToArtisan -> onNavigateToArtisan(event.slug)
             is HomeEvent.NavigateToCollection -> onNavigateToCollection(event.collectionId)
             is HomeEvent.ShowError -> { /* Show Snackbar */ }
         }
@@ -193,7 +193,7 @@ fun HomeCollectionRow(section: HomeSection, onAction: (HomeAction) -> Unit) {
 fun HomeArtisanSpotlight(section: HomeSection, onAction: (HomeAction) -> Unit) {
     val artisan = section.artisan ?: return
     ArtisanSpotlightCard(
-        id = artisan.id,
+        id = artisan.slug,
         name = artisan.name,
         title = section.title ?: "The Soul of Clay: ${artisan.name}",
         content = section.content ?: artisan.philosophy ?: "",

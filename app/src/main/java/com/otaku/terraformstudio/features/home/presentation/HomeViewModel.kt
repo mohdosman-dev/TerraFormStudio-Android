@@ -36,7 +36,7 @@ class HomeViewModel(
                 viewModelScope.launch { _events.send(HomeEvent.NavigateToProduct(action.slug)) }
             }
             is HomeAction.OnArtisanClick -> {
-                viewModelScope.launch { _events.send(HomeEvent.NavigateToArtisan(action.artisanId)) }
+                viewModelScope.launch { _events.send(HomeEvent.NavigateToArtisan(action.slug)) }
             }
             is HomeAction.OnCollectionClick -> {
                 viewModelScope.launch { _events.send(HomeEvent.NavigateToCollection(action.collectionId)) }

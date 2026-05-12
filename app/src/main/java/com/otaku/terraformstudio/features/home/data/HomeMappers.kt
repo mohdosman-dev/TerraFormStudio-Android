@@ -40,6 +40,7 @@ fun HomeSectionDto.toDomain(): HomeSection {
 fun ArtisanDto.toDomain(): HomeArtisan {
     return HomeArtisan(
         id = id,
+        slug = slug,
         name = displayName,
         philosophy = studioStory?.philosophy,
         studioImageUrl = heroImage?.url

@@ -22,6 +22,14 @@ To minimize context bloat, refer to these resources only when relevant to the cu
 - **Backend API:** Discover routes and schemas on-the-fly by reading `workspace/test/terra-form-studio/backend/src/routes/`.
 - **Aesthetic Guidelines:** Follow "The Tactile Gallery" theme (Noto Serif, earth tones, premium whitespace).
 
+## Feature Map
+
+| Feature | Route | ViewModel | Screen |
+|---------|-------|-----------|--------|
+| Home | `HomeRoute` | `HomeViewModel` | `HomeScreen` |
+| Product Detail | `ProductDetailRoute(slug)` | `ProductDetailViewModel` | `ProductDetailScreen` |
+| Artisan Profile | `ArtisanProfileRoute(slug)` | `ArtisanProfileViewModel` | `ArtisanProfileScreen` |
+
 ## Context Commands
 > [!IMPORTANT]
 > **UI Work:** Always read `specs/terra-design.md` and `specs/screen.html` before implementing or modifying screens.
