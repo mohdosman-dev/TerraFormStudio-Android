@@ -25,6 +25,7 @@ enum class HomeSectionType {
 
 data class HomeArtisan(
     val id: String,
+    val slug: String,
     val name: String,
     val philosophy: String?,
     val studioImageUrl: String?

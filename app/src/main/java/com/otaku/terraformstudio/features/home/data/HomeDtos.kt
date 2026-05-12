@@ -1,5 +1,7 @@
 package com.otaku.terraformstudio.features.home.data
 
+import com.otaku.terraformstudio.core.data.ImageDto
+import com.otaku.terraformstudio.core.data.StudioStoryDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -25,12 +27,6 @@ data class HomeSectionDto(
 )
 
 @Serializable
-data class ImageDto(
-    val url: String,
-    val alt: String
-)
-
-@Serializable
 data class CtaDto(
     val label: String,
     val targetType: String,
@@ -42,15 +38,12 @@ data class CtaDto(
 data class ArtisanDto(
     @SerialName("_id")
     val id: String,
+    val slug: String,
     val displayName: String,
     val studioStory: StudioStoryDto? = null,
     val heroImage: ImageDto? = null
 )
 
-@Serializable
-data class StudioStoryDto(
-    val philosophy: String? = null
-)
 
 @Serializable
 data class ProductDto(
