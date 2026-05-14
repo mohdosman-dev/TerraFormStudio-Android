@@ -11,6 +11,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.otaku.terraformstudio.R
+import com.otaku.terraformstudio.ui.theme.BrandCream
+import com.otaku.terraformstudio.ui.theme.BrandGold
+import com.otaku.terraformstudio.ui.theme.BrandMutedGold
 
 @Composable
 fun AppBottomNavigation(
@@ -19,8 +22,8 @@ fun AppBottomNavigation(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        border = BorderStroke(1.dp, Color(0xFF7A6A53).copy(alpha = 0.08f)),
-        color = Color(0xFFFAF9F6).copy(alpha = 0.96f)
+        border = BorderStroke(1.dp, BrandGold.copy(alpha = 0.08f)),
+        color = BrandCream.copy(alpha = 0.96f)
     ) {
         Row(
             modifier = Modifier
@@ -30,22 +33,22 @@ fun AppBottomNavigation(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             NavItem(
-                label = "Gallery",
+                label = "Discover",
                 iconRes = R.drawable.ic_nav_gallery,
-                isSelected = currentRoute == "gallery",
-                onClick = { onNavigate("gallery") }
+                isSelected = currentRoute == "discover",
+                onClick = { onNavigate("discover") }
             )
             NavItem(
-                label = "Artisans",
+                label = "Artists",
                 iconRes = R.drawable.ic_nav_artisans,
-                isSelected = currentRoute == "artisans",
-                onClick = { onNavigate("artisans") }
+                isSelected = currentRoute == "artists",
+                onClick = { onNavigate("artists") }
             )
             NavItem(
-                label = "Journal",
+                label = "Collections",
                 iconRes = R.drawable.ic_nav_journal,
-                isSelected = currentRoute == "journal",
-                onClick = { onNavigate("journal") }
+                isSelected = currentRoute == "collections",
+                onClick = { onNavigate("collections") }
             )
             NavItem(
                 label = "Cart",
@@ -64,7 +67,7 @@ private fun NavItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val contentColor = if (isSelected) Color(0xFF7A6A53) else Color(0xFF7F7468)
+    val contentColor = if (isSelected) BrandGold else BrandMutedGold
     
     Box(
         modifier = Modifier

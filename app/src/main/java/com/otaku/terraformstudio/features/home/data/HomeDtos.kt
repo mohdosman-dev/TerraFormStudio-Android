@@ -29,7 +29,7 @@ data class HomeSectionDto(
 @Serializable
 data class CtaDto(
     val label: String,
-    val targetType: String,
+    val targetType: String? = null,
     val targetId: String? = null,
     val url: String? = null
 )

@@ -64,6 +64,9 @@ fun TerraFormNavigation() {
                 onBackClick = { navController.popBackStack() },
                 onNavigateToProduct = { slug ->
                     navController.navigate(ProductDetailRoute(slug))
+                },
+                onNavigateToArtisan = { slug ->
+                    navController.navigate(ArtisanProfileRoute(slug))
                 }
             )
         }

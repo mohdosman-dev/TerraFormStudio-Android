@@ -1,7 +1,6 @@
 package com.otaku.terraformstudio.features.product.data
 
 import com.otaku.terraformstudio.features.home.data.ArtisanDto
-import com.otaku.terraformstudio.features.home.data.ImageDto
 import com.otaku.terraformstudio.features.home.data.PriceDto
 import com.otaku.terraformstudio.features.home.data.ProductDto
 import kotlinx.serialization.SerialName

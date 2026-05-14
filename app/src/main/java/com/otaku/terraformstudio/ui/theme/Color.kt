@@ -13,6 +13,15 @@ val Border = Color(0xFFD8CDC1)
 val Success = Color(0xFF4F7A5A)
 val Error = Color(0xFFA35C4B)
 
+// Brand Colors (Terra Form Studio)
+val BrandCream = Color(0xFFFAF9F6)
+val BrandGold = Color(0xFF7A6A53)
+val BrandDeepBrown = Color(0xFF2F2A24)
+val BrandMutedGold = Color(0xFF7F7468)
+val BrandLightBeige = Color(0xFFF3EDE5)
+val BrandSand = Color(0xFFA29689)
+val BrandTerracotta = Color(0xFFA68A78)
+
 // Material 3 Color Mappings
 val PrimaryLight = Primary
 val OnPrimaryLight = Color.White
