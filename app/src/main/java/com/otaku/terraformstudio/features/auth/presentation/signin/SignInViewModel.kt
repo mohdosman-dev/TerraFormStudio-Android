@@ -2,9 +2,11 @@ package com.otaku.terraformstudio.features.auth.presentation.signin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.otaku.terraformstudio.core.data.local.GuestTokenManager
 import com.otaku.terraformstudio.core.domain.onFailure
 import com.otaku.terraformstudio.core.domain.onSuccess
 import com.otaku.terraformstudio.features.auth.domain.AuthRepository
+import com.otaku.terraformstudio.features.cart.domain.CartRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +15,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SignInViewModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val cartRepository: CartRepository,
+    private val guestTokenManager: GuestTokenManager,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SignInState())
@@ -56,9 +60,12 @@ class SignInViewModel(
     private fun signIn() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
-            
+
             authRepository.login(state.value.email, state.value.password)
                 .onSuccess {
+                    val guestId = guestTokenManager.getGuestId()
+                    cartRepository.mergeGuestCart(guestId)
+                    guestTokenManager.clearGuestId()
                     _state.update { it.copy(isLoading = false) }
                     _events.send(SignInEvent.SignInSuccess)
                 }

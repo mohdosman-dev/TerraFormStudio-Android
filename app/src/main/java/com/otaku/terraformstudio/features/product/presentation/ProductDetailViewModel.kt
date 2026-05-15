@@ -2,10 +2,10 @@ package com.otaku.terraformstudio.features.product.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.otaku.terraformstudio.R
 import com.otaku.terraformstudio.core.domain.onFailure
 import com.otaku.terraformstudio.core.domain.onSuccess
 import com.otaku.terraformstudio.core.presentation.UiText
+import com.otaku.terraformstudio.features.cart.domain.CartRepository
 import com.otaku.terraformstudio.features.home.presentation.toUiText
 import com.otaku.terraformstudio.features.product.domain.ProductRepository
 import kotlinx.coroutines.channels.Channel
@@ -17,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class ProductDetailViewModel(
     private val slug: String,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val cartRepository: CartRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProductDetailState())
@@ -34,8 +35,15 @@ class ProductDetailViewModel(
         when (action) {
             ProductDetailAction.OnRefresh -> loadProduct()
             ProductDetailAction.OnAddToCart -> {
+                val productId = _state.value.product?.id ?: return
                 viewModelScope.launch {
-                    _events.send(ProductDetailEvent.ShowSnackbar(UiText.StringResource(R.string.added_to_cart)))
+                    cartRepository.addItem(productId, 1)
+                        .onSuccess {
+                            _events.send(ProductDetailEvent.ShowSnackbar(UiText.DynamicString("Added to bag")))
+                        }
+                        .onFailure {
+                            _events.send(ProductDetailEvent.ShowSnackbar(UiText.DynamicString("Failed to add to bag")))
+                        }
                 }
             }
 
