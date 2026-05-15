@@ -9,5 +9,11 @@ import retrofit2.Retrofit
 val productModule = module {
     single { get<Retrofit>().create(ProductApi::class.java) }
     single<ProductRepository> { ProductRepositoryImpl(get()) }
-    viewModel { parameters -> ProductDetailViewModel(slug = parameters.get(), get()) }
+    viewModel { parameters ->
+        ProductDetailViewModel(
+            slug = parameters.get(),
+            productRepository = get(),
+            cartRepository = get()
+        )
+    }
 }

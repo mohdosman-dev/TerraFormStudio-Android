@@ -52,7 +52,14 @@ data class ProductDto(
     val slug: String,
     val title: String,
     val price: PriceDto,
-    val media: List<ImageDto>? = null
+    val media: List<ImageDto>? = null,
+    val descriptionLong: String? = null,
+    val specifications: ProductSpecsDto? = null,
+)
+
+@Serializable
+data class ProductSpecsDto(
+    val technique: String? = null,
 )
 
 @Serializable

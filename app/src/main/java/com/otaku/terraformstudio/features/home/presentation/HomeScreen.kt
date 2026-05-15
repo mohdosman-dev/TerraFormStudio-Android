@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,15 +22,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.otaku.terraformstudio.core.presentation.ObserveAsEvents
 import com.otaku.terraformstudio.core.presentation.components.*
+import com.otaku.terraformstudio.features.cart.presentation.CartRoot
 import com.otaku.terraformstudio.features.home.domain.HomeSection
 import com.otaku.terraformstudio.features.home.domain.HomeSectionType
 import com.otaku.terraformstudio.features.makers.presentation.MakersRoot
-import com.otaku.terraformstudio.ui.theme.BrandCream
-import com.otaku.terraformstudio.ui.theme.BrandGold
+
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeRoot(
+    onNavigateToCart: () -> Unit,
     onNavigateToProduct: (String) -> Unit,
     onNavigateToArtisan: (String) -> Unit,
     onNavigateToCollection: (String) -> Unit,
@@ -39,6 +39,7 @@ fun HomeRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var currentTab by remember { mutableStateOf("discover") }
+    val cartTabOpen = currentTab == "cart"
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
@@ -49,19 +50,30 @@ fun HomeRoot(
         }
     }
 
-    HomeScreen(
-        currentTab = currentTab,
-        onTabChange = { currentTab = it },
-        state = state,
-        onAction = viewModel::onAction,
-        onNavigateToArtisan = onNavigateToArtisan
-    )
+    if (cartTabOpen) {
+        CartRoot(
+            onBackClick = { currentTab = "discover" },
+            onNavigateToCheckout = { /* TODO */ },
+            onNavigateToDiscover = { currentTab = "discover" },
+            onNavigateToProduct = onNavigateToProduct,
+        )
+    } else {
+        HomeScreen(
+            currentTab = currentTab,
+            onTabChange = { currentTab = it },
+            onCartClick = onNavigateToCart,
+            state = state,
+            onAction = viewModel::onAction,
+            onNavigateToArtisan = onNavigateToArtisan,
+        )
+    }
 }
 
 @Composable
 fun HomeScreen(
     currentTab: String,
     onTabChange: (String) -> Unit,
+    onCartClick: () -> Unit,
     state: HomeState,
     onAction: (HomeAction) -> Unit,
     onNavigateToArtisan: (String) -> Unit
@@ -71,9 +83,12 @@ fun HomeScreen(
             when (currentTab) {
                 "discover" -> AppTopBar(
                     onMenuClick = { /* Open Drawer */ },
-                    onCartClick = { /* Open Cart */ }
+                    onCartClick = onCartClick,
                 )
-                "artists" -> MakersTopBar()
+                "artists" -> AppTopBar(
+                    onMenuClick = { /* Open Drawer */ },
+                    onCartClick = onCartClick,
+                )
             }
         },
         bottomBar = {
@@ -115,44 +130,6 @@ private fun HomeGalleryFeed(state: HomeState, onAction: (HomeAction) -> Unit) {
         }
     }
 }
-
-@Composable
-fun MakersTopBar() {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        color = BrandCream.copy(alpha = 0.80f),
-        tonalElevation = 0.dp
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp, vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "\u2630",
-                color = BrandGold,
-                fontSize = 18.sp
-            )
-            Text(
-                text = "The Makers",
-                fontFamily = NotoSerif,
-                fontStyle = FontStyle.Italic,
-                color = BrandGold,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Normal
-            )
-            Text(
-                text = "\uD83D\uDED2",
-                color = BrandGold,
-                fontSize = 18.sp
-            )
-        }
-    }
-}
-
-private val NotoSerif = androidx.compose.ui.text.font.FontFamily.Serif
 
 @Composable
 fun HomeSectionItem(

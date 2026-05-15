@@ -20,7 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -109,17 +109,8 @@ fun ProductDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = { onAction(ProductDetailAction.OnBackClick) }) {
                         Icon(
-                            Icons.Default.Menu,
+                            Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = "Menu",
-                            tint = Color(0xFF7A6A53)
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { /* Open Cart */ }) {
-                        Icon(
-                            Icons.Default.ShoppingBag,
-                            contentDescription = "Cart",
                             tint = Color(0xFF7A6A53)
                         )
                     }
@@ -219,7 +210,7 @@ fun ProductDetailScreen(
 
                     TerraPrimaryButton(
                         text = "Add to bag",
-                        onClick = { },
+                        onClick = { onAction(ProductDetailAction.OnAddToCart) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),

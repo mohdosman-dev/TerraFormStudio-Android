@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.otaku.terraformstudio.features.artisan.presentation.ArtisanProfileRoot
+import com.otaku.terraformstudio.features.cart.presentation.CartRoot
 import com.otaku.terraformstudio.features.home.presentation.HomeRoot
 import com.otaku.terraformstudio.features.product.presentation.ProductDetailRoot
 import com.otaku.terraformstudio.ui.theme.TerraFormStudioTheme
@@ -23,6 +24,9 @@ data class ProductDetailRoute(val slug: String)
 
 @Serializable
 data class ArtisanProfileRoute(val slug: String)
+
+@Serializable
+object CartRoute
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +50,9 @@ fun TerraFormNavigation() {
     ) {
         composable<HomeRoute> {
             HomeRoot(
+                onNavigateToCart = {
+                    navController.navigate(CartRoute)
+                },
                 onNavigateToProduct = { slug ->
                     navController.navigate(ProductDetailRoute(slug))
                 },
@@ -75,6 +82,18 @@ fun TerraFormNavigation() {
             ArtisanProfileRoot(
                 slug = route.slug,
                 onBackClick = { navController.popBackStack() },
+                onNavigateToProduct = { slug ->
+                    navController.navigate(ProductDetailRoute(slug))
+                }
+            )
+        }
+        composable<CartRoute> {
+            CartRoot(
+                onBackClick = { navController.popBackStack() },
+                onNavigateToCheckout = { /* TODO: navigate to checkout */ },
+                onNavigateToDiscover = {
+                    navController.popBackStack()
+                },
                 onNavigateToProduct = { slug ->
                     navController.navigate(ProductDetailRoute(slug))
                 }
