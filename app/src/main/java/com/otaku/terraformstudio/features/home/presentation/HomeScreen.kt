@@ -53,7 +53,7 @@ fun HomeRoot(
     if (cartTabOpen) {
         CartRoot(
             onBackClick = { currentTab = "discover" },
-            onNavigateToCheckout = { /* TODO */ },
+            onNavigateToCheckout = { _ -> /* TODO */ },
             onNavigateToDiscover = { currentTab = "discover" },
             onNavigateToProduct = onNavigateToProduct,
         )

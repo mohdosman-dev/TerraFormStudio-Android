@@ -56,7 +56,7 @@ import java.util.Locale
 @Composable
 fun CartRoot(
     onBackClick: () -> Unit,
-    onNavigateToCheckout: () -> Unit,
+    onNavigateToCheckout: (String) -> Unit,
     onNavigateToDiscover: () -> Unit,
     onNavigateToProduct: (String) -> Unit,
     viewModel: CartViewModel = koinViewModel(),
@@ -66,7 +66,7 @@ fun CartRoot(
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             CartEvent.NavigateBack -> onBackClick()
-            CartEvent.NavigateToCheckout -> onNavigateToCheckout()
+            is CartEvent.NavigateToCheckout -> onNavigateToCheckout(event.cartId)
             CartEvent.NavigateToDiscover -> onNavigateToDiscover()
             is CartEvent.NavigateToProduct -> onNavigateToProduct(event.slug)
             is CartEvent.ShowSnackbar -> {}

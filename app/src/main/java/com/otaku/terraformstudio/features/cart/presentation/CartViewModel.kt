@@ -34,7 +34,10 @@ class CartViewModel(
             is CartAction.OnDecreaseQuantity -> updateQuantity(action.productId, -1)
             is CartAction.OnRemoveItem -> removeItem(action.productId)
             CartAction.OnProceedToCheckout -> {
-                viewModelScope.launch { _events.send(CartEvent.NavigateToCheckout) }
+                val cartId = _state.value.cart?.id
+                if (cartId != null) {
+                    viewModelScope.launch { _events.send(CartEvent.NavigateToCheckout(cartId)) }
+                }
             }
             CartAction.OnContinueShopping -> {
                 viewModelScope.launch { _events.send(CartEvent.NavigateToDiscover) }
