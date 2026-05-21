@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.70.215:3000\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.43.49:3000\"")
         }
         release {
             isMinifyEnabled = false

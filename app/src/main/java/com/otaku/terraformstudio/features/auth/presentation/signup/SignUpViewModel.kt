@@ -2,9 +2,11 @@ package com.otaku.terraformstudio.features.auth.presentation.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.otaku.terraformstudio.core.data.local.GuestTokenManager
 import com.otaku.terraformstudio.core.domain.onFailure
 import com.otaku.terraformstudio.core.domain.onSuccess
 import com.otaku.terraformstudio.features.auth.domain.AuthRepository
+import com.otaku.terraformstudio.features.cart.domain.CartRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +15,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val cartRepository: CartRepository,
+    private val guestTokenManager: GuestTokenManager,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SignUpState())
@@ -24,10 +28,28 @@ class SignUpViewModel(
 
     fun onAction(action: SignUpAction) {
         when (action) {
-            is SignUpAction.OnEmailChange -> _state.update { it.copy(email = action.value, emailError = null) }
-            is SignUpAction.OnFullNameChange -> _state.update { it.copy(fullName = action.value, fullNameError = null) }
+            is SignUpAction.OnEmailChange -> _state.update {
+                it.copy(
+                    email = action.value,
+                    emailError = null
+                )
+            }
+
+            is SignUpAction.OnFullNameChange -> _state.update {
+                it.copy(
+                    fullName = action.value,
+                    fullNameError = null
+                )
+            }
+
             is SignUpAction.OnNewsletterCheckChange -> _state.update { it.copy(isNewsletterChecked = action.value) }
-            is SignUpAction.OnPasswordChange -> _state.update { it.copy(password = action.value, passwordError = null) }
+            is SignUpAction.OnPasswordChange -> _state.update {
+                it.copy(
+                    password = action.value,
+                    passwordError = null
+                )
+            }
+
             SignUpAction.OnSignUpClick -> validateAndSignUp()
             SignUpAction.OnSignInClick -> viewModelScope.launch { _events.send(SignUpEvent.NavigateToSignIn) }
             SignUpAction.OnTogglePasswordVisibility -> _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
@@ -64,9 +86,12 @@ class SignUpViewModel(
     private fun signUp() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
-            
+
             authRepository.signup(state.value.email, state.value.password)
                 .onSuccess {
+                    val guestId = guestTokenManager.getGuestId()
+                    cartRepository.mergeGuestCart(guestId)
+                    guestTokenManager.clearGuestId()
                     _state.update { it.copy(isLoading = false) }
                     _events.send(SignUpEvent.SignUpSuccess)
                 }

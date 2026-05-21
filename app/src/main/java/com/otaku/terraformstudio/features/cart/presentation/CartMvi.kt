@@ -23,7 +23,7 @@ sealed interface CartAction {
 
 sealed interface CartEvent {
     data object NavigateBack : CartEvent
-    data object NavigateToCheckout : CartEvent
+    data class NavigateToCheckout(val cartId: String) : CartEvent
     data object NavigateToDiscover : CartEvent
     data class NavigateToProduct(val slug: String) : CartEvent
     data class ShowSnackbar(val message: UiText) : CartEvent
