@@ -3,6 +3,7 @@ package com.otaku.terraformstudio.features.auth.presentation.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.otaku.terraformstudio.core.data.local.GuestTokenManager
+import com.otaku.terraformstudio.core.domain.DataError
 import com.otaku.terraformstudio.core.domain.onFailure
 import com.otaku.terraformstudio.core.domain.onSuccess
 import com.otaku.terraformstudio.features.auth.domain.AuthRepository
@@ -89,11 +90,26 @@ class SignUpViewModel(
 
             authRepository.signup(state.value.email, state.value.password)
                 .onSuccess {
-                    val guestId = guestTokenManager.getGuestId()
-                    cartRepository.mergeGuestCart(guestId)
-                    guestTokenManager.clearGuestId()
-                    _state.update { it.copy(isLoading = false) }
-                    _events.send(SignUpEvent.SignUpSuccess)
+                    runCatching {
+                        val guestId = guestTokenManager.getGuestId()
+                        cartRepository.mergeGuestCart(guestId)
+                        guestTokenManager.clearGuestId()
+                    }.fold(
+                        onSuccess = {
+                            _state.update { it.copy(isLoading = false) }
+                            _events.send(SignUpEvent.SignUpSuccess)
+                        },
+                        onFailure = { mergeError ->
+                            val message = mergeError.message ?: "Failed to merge guest cart"
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    error = DataError.Network.SERVER_ERROR
+                                )
+                            }
+                            _events.send(SignUpEvent.Error(DataError.Network.SERVER_ERROR))
+                        }
+                    )
                 }
                 .onFailure { error ->
                     _state.update { it.copy(isLoading = false, error = error) }
